@@ -144,21 +144,148 @@
 
 
 function splitJobCharacters(str) {
-  // Your code here
+    let arrayTeams = [];
+    let currentWord = "";
+
+    for (let i = 0; i < str.length; i++) {
+        let char = str[i];
+        console.log('1.char:', char);
+
+        if (char === "," || char === "-") {
+            arrayTeams.push(currentWord);
+            console.log('2.currentword:', currentWord);
+            currentWord = "";
+        }
+        else {
+            currentWord = currentWord + char;
+        }
+    }
+
+    arrayTeams.push(currentWord);
+
+    console.log('3.arrayTeams split:', arrayTeams);
+    return arrayTeams;
 }
 
-function reverseJobCharacters(arr) {
-  // Your code here
+
+  function reverseJobCharacters(arr) {
+    let arrayTeams = [];
+
+    for (let i = 0; i < arr.length; i++) {
+        if (i % 2 === 1) {
+            let reversed = "";
+            for (let j = arr[i].length - 1; j >= 0; j--) {
+                reversed = reversed + arr[i][j];
+                console.log('1.reverse:', reversed);
+            }
+            arrayTeams.push(reversed);
+            console.log('2.arrayTeams job:', arrayTeams);
+        } else {
+            arrayTeams.push(arr[i]);
+        }
+    }
+    console.log('3.arrayTeams reversed name:', arrayTeams);
+    return arrayTeams;
 }
+
 
 function decryptJobCharacters(arr) {
-  // Your code here
+    let arrayTeams = [];
+    let alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+    for (let i = 0; i < arr.length; i++) {
+        if (i % 2 === 1) {
+            let decrypted = "";
+            for (let j = 0; j < arr[i].length; j++) {
+                let char = arr[i][j];
+                let lowerChar = char.toLowerCase();
+                let index = -1;
+                
+                for (let k = 0; k < alphabet.length; k++) {
+                    if (alphabet[k] === lowerChar) {
+                        index = k;
+                        break;
+                    }
+                }
+                console.log('1.index:', index);
+                
+                if (index !== -1) {
+                    let newIndex = (index - 1 + 26) % 26;
+                    decrypted = decrypted + alphabet[newIndex];
+                    console.log('1.newIndex:', newIndex);
+                } else {
+                    decrypted = decrypted + lowerChar;
+                }
+            }
+            console.log('2.decrypted:', decrypted);
+            arrayTeams.push(decrypted);
+        } else {
+            arrayTeams.push(arr[i]);
+        }
+    }
+    console.log('3.arrayTeams decrypted name:', arrayTeams);
+    return arrayTeams;
 }
+
 
 function makingDreamTeam(arr) {
-  // Your code here
+    let dreamTeams = [];
+
+    for (let i = 0; i < arr.length; i += 2) {
+        dreamTeams.push([arr[i], arr[i + 1]]);
+    }
+
+    console.log('2.dreamTeams:', dreamTeams);
+    return dreamTeams;
 }
 
+
 function startUpMatchMaking(str) {
-  // Your code here
+    let checkTeam = splitJobCharacters(str);
+    let countName = 0;
+
+    for (let i = 0; i < checkTeam.length; i += 2) {
+        countName++;
+    }
+
+    if (countName < 3) {
+        return "Minimum 3 members in the team";
+    }
+
+    let reversedTeam = reverseJobCharacters(checkTeam);
+    let decryptedTeam = decryptJobCharacters(reversedTeam);
+    let dreamTeam = makingDreamTeam(decryptedTeam);
+
+    let jobs = [];
+    for (let member of dreamTeam) {
+        jobs.push(member[1]);
+    }
+
+    let requiredJobs = ["hustler", "hipster", "hacker"];
+    let isDreamTeam = true;
+
+    for (let job of requiredJobs) {
+        let found = false;
+        for (let j = 0; j < jobs.length; j++) {
+            if (jobs[j] === job) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            isDreamTeam = false;
+            break;
+        }
+    }
+
+    if (isDreamTeam) {
+        return "Match your Dream Start-Up Team";
+    } else {
+        return "The job composition in the team is not suitable";
+    }
 }
+
+
+var dreamTeams = "idaz-sfmutvi,anggara-sfutqji,dear-sfldbi";
+var startup = startUpMatchMaking(dreamTeams);
+console.log("HASIL AKHIR:", startup);
